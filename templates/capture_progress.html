@@ -1,0 +1,91 @@
+<!-- HTML of Dashboard Page -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dashstyle.css') }}">
+    <nav class="navbar navbar-expand-sm navbar-dark">
+        <div class="container-fluid">
+            <ul class="navbar-nav mr-auto">
+                <li>
+                    <a class="navbar-brand" href="{{ url_for('dashboard') }}">ScanIoT</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capture Progress</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container py-4">
+        <h2 class="display-4 text-center">Capture Progress</h2>
+        <table class="table table-striped mt-4">
+            <thead class="table-dark">
+                <tr>
+                    <th>MAC Address</th>
+                    <th>Device Name</th>
+                    <th>Progress</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody class="table-light">
+                {% if progress %}
+                    {% for device in progress %}
+                        <tr>
+                            <td>{{ device.mac_address }}</td>
+                            <td>{{ device.display_name }}</td>
+                            <td>{{ device.progress }}%</td>
+                            <td>
+                                <!-- Add any action buttons (e.g., stop capture) -->
+                                <button class="btn btn-danger btn-sm" data-mac="{{ device.mac_address }}" onclick="stopCapture(event)">Stop Capture</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="4">No progress data available.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    
+    <script>
+        // JavaScript function to stop capture for a specific device
+        function stopCapture(event) {
+            const macAddress = event.target.getAttribute('data-mac');
+
+            fetch('/stop_capture', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ mac: macAddress })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Capture stopped for MAC address: ' + macAddress);
+                location.reload();  // Reload the page to update the progress
+            })
+            .catch(error => {
+                console.error('Error stopping capture:', error);
+            });
+        }
+    </script>
+</body>
+</html>

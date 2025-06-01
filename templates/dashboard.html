@@ -1,0 +1,335 @@
+<!-- HTML of Dashboard Page -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dashstyle.css') }}">
+    <nav class="navbar navbar-expand-sm navbar-dark">
+        <div class="container-fluid">
+            <ul class="navbar-nav mr-auto">
+                <li>
+                    <a class="navbar-brand" href="{{ url_for('dashboard') }}">ScanIoT</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</head>
+
+<body>
+    <div id="particles-js"></div>
+    <div class="container py-2">
+        <div class="container-fluid text-center">
+            <h2 class="display-4">Hello, admin!</h2>
+            <p class="display-5">Welcome to the Dashboard!</p><br>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12 text-center">
+                <form action="{{ url_for('dashboard') }}" method="post" class="d-inline">
+                    <input type="submit" class="btn btn-dark btn-lg mr-2" value="Scan">
+                </form>
+                <form action="{{ url_for('refresh') }}" method="post" class="d-inline">
+                    <button type="submit" class="btn btn-dark btn-lg mr-2">Saved Devices</button>
+                </form>
+                <a href="{{ url_for('capture_progress_page') }}">
+                    <button type="button" class="btn btn-dark btn-lg mr-2">Capture Progress</button>
+                </a>                               
+            </div>
+        </div>
+    </div>
+    
+    <div class="container mt-1">
+        <div class="row justify-content-center">
+            <!-- Devices Table (Scan Tab) -->
+            <div class="col-lg-8 table-responsive scrollable-table">
+                {% if devices %}
+                <table class="table table-striped mt-4">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Device Info</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-light">
+                        {% for device in devices %}
+                        <tr>
+                            <td>
+                                {% if device.display_name %}
+                                <b>Name:</b> {{ device.display_name }} <br>
+                                {% endif %}
+                                <b>MAC Address:</b> {{ device.mac }} <br>
+                                <b>Vendor:</b> {{ device.vendor }} <br> <!-- Vendor Info -->
+                                <b>IP Addresses:</b>
+                                <ul>
+                                    {% for ip in device.ips['IPv4'] %}
+                                        <li>IPv4: {{ ip }}</li>
+                                    {% endfor %}
+                                    {% for ip in device.ips['IPv6'] %}
+                                        <li>IPv6: {{ ip }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                            <td>
+                                <button onclick="editUser('{{ device.ips['IPv4'][0] if device.ips['IPv4'] else '' }}', '{{ device.mac }}')" class="btn btn-warning btn-sm">Update</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endif %}
+            </div>
+
+            <!-- Saved Devices Table -->
+            <div class="col-lg-8 table-responsive mt-4">
+                {% if records %}
+                <table class="table table-striped mt-4">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Select</th>
+                            <th>IP Address</th>
+                            <th>MAC Address</th>
+                            <th>Device Name</th>
+                            <th>Description</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-light">
+                        {% for record in records %}
+                        <tr>
+                            <td>
+                                <!-- Checkbox for each device -->
+                                <input type="checkbox" name="capture_devices" value="{{ record[2] }}">
+                            </td>
+                            <td>{{ record[1] }}</td>
+                            <td>{{ record[2] }}</td>
+                            <td>{{ record[3] }}</td>
+                            <td>{{ record[4] }}</td>
+                            <td>
+                                <!-- Capture button for individual devices -->
+                                <button onclick="capture_Pcap('{{ record[1] }}', '{{ record[2] }}')" class="btn btn-success btn-sm" data-toggle="modal" data-target="#pcapModal">Capture</button>
+                                
+                                <!-- Delete button -->
+                                <form action="{{ url_for('delete_device') }}" method="post" class="d-inline">
+                                    <input type="hidden" name="mac" value="{{ record[2] }}">
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <!-- Capture Multiple Devices button placed after the table (same as before) -->
+                <button type="button" class="btn btn-primary mt-2" data-toggle="modal" data-target="#captureMultipleModal">Capture Multiple Devices</button>
+                {% endif %}
+            </div>
+
+            <!-- Flash Messages -->
+            <div class="container-sm">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="text-{{ category }} text-center bd-text">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
+        </div>
+
+        <!-- Modal for Multiple Capture -->
+        <div id="captureMultipleModal" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Capture Multiple Devices</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal('captureMultipleModal')">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="multipleCaptureForm" action="/capture_pcap" method="post">
+                            <div class="form-group">
+                                <label for="custom_filename">Filename:</label>
+                                <input type="text" id="custom_filename" name="custom_filename" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="packets">Number of packets:</label>
+                                <input type="number" id="packets" name="packets" class="form-control" required>
+                            </div>
+                            <input type="hidden" name="selected_devices" id="selected_devices">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal('captureMultipleModal')">Close</button>
+                            <input type="submit" class="btn btn-primary" value="Capture">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal for PCAP Capture -->
+        <div id="pcapModal" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Capture PCAP</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal('pcapModal')">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="pcapForm" action="/capture_pcap" method="post">
+                            <div class="form-group">
+                                <label for="capture_ip">Device IP:</label>
+                                <input id="capture_ip" name="ip" class="form-control" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="capture_mac">Device MAC:</label>
+                                <input id="capture_mac" name="mac" class="form-control" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="custom_filename">Filename:</label>
+                                <input type="text" id="custom_filename" name="filename" class="form-control" placeholder="Enter Device Name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="packets">Number of packets:</label>
+                                <input type="number" id="packets" name="packets" class="form-control" required>
+                            </div>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal('pcapModal')">Close</button>
+                            <input type="submit" class="btn btn-primary" value="Capture">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal for editing device information -->
+        <div id="editModal" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Device Information</h5>
+                        <button type="button" class="close" aria-label="Close" onclick="closeModal('editModal')">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Form updated to include enctype for file upload -->
+                        <form id="editForm" action="/update_device" method="POST" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="edit_ip">Device IP:</label>
+                                <input id="edit_ip" name="ip" class="form-control" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit_mac">Device MAC:</label>
+                                <input id="edit_mac" name="mac" class="form-control" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="device_name">Device Name:</label>
+                                <input type="text" id="device_name" name="device_name" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="device_description">Device Description:</label>
+                                <input type="text" id="device_description" name="device_description" class="form-control" required>
+                            </div>
+                            <!-- File input for uploading an image -->
+                            <div class="form-group">
+                                <label for="device_image">Upload Device Image:</label>
+                                <input type="file" id="device_image" name="device_image" class="form-control">
+                            </div>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal('editModal')">Close</button>
+                            <input type="submit" class="btn btn-success" value="Save">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="progressContainer" class="container mt-4">
+            <!-- The progress information will be dynamically added here -->
+        </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ url_for('static', filename='js/particles.js') }}"></script>
+
+
+    <script>
+        // Function to show the multiple capture modal
+        document.querySelector('.btn-primary.mt-2').onclick = function() {
+            var selectedDevices = [];
+            document.querySelectorAll('input[name="capture_devices"]:checked').forEach(function(checkbox) {
+                selectedDevices.push(checkbox.value);
+            });
+            if (selectedDevices.length === 0) {
+                alert("Please select at least one device.");
+                return;
+            }
+            document.getElementById('selected_devices').value = selectedDevices.join(',');
+            $('#captureMultipleModal').modal('show');
+        };
+    </script>
+
+    <script>
+        document.getElementById('captureProgressForm').addEventListener('submit', function(event) {
+            event.preventDefault();  // Prevent the form from submitting the traditional way
+
+            // Display a loading message while waiting for the progress
+         const progressContainer = document.getElementById('progressContainer');
+         progressContainer.innerHTML = 'Loading progress...';
+
+            // Send the request to the backend
+         fetch("{{ url_for('get_progress') }}", {
+              method: 'POST',  // or 'GET' if you adjust the method to GET
+              headers: {
+                   'Content-Type': 'application/json'
+              }
+          })
+         .then(response => response.json())
+         .then(data => {
+              if (data.progress && data.progress.length > 0) {
+                    // If there is progress data
+                 let progressHtml = '<ul>';
+                 data.progress.forEach(device => {
+                       // Calculate the progress percentage
+                     const percentage = Math.min((device.progress / device.total_packets) * 100, 100);  // Cap the value at 100%
+
+                     progressHtml += `
+                           <li>
+                               <b>MAC Address:</b> ${device.mac_address} <br>
+                               <b>Progress:</b> ${percentage.toFixed(2)}% <br> <!-- Display percentage with two decimals -->
+                               <b>Total Packets:</b> ${device.total_packets} <br>
+                         </li>
+                        `;
+                 });
+                    progressHtml += '</ul>';
+                    progressContainer.innerHTML = progressHtml;  // Update the DOM with the progress
+             } else {
+                 // If progress is empty, show a message
+                 progressContainer.innerHTML = 'No progress data available or the process is complete.';
+             }
+            })
+         .catch(error => {
+             console.error('Error fetching progress:', error);
+             progressContainer.innerHTML = 'An error occurred while fetching the progress.';
+         });
+        });
+
+
+    </script>
+</body>
+</html>
