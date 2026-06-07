@@ -6,7 +6,7 @@ ScanIoT is a traffic collection tool that provides a Flask-based web application
 
 **Overview**
 ScanIoT is a modular IoT security research platform designed to capture network traffic and generate the quality dataset for machine-learning algorithms for device fingerprinting. It combines:
-* Backend IoT data processing pipeline (Python)
+* Backend data processing pipeline (Python)
 * Web-based visualization interface (HTML templates + static assets)
 * Dataset generation for ML/AI-based device fingerprinting
 
