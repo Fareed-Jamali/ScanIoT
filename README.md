@@ -6,7 +6,7 @@ Intelligent IoT Traffic Monitoring, Feature Extraction & Dataset Generation Plat
 
 
 
-🔥 Overview
+**Overview**
 ScanIoT is a modular IoT security research platform designed to capture network traffic, process it into structured features, and generate machine-learning-ready datasets.
 It combines:
 ⚙️ Backend IoT data processing pipeline (Python)
