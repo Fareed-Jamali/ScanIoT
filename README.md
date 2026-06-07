@@ -49,6 +49,7 @@ IoT Devices / Network Traffic
 </pre>
 
 **Project Structure**
+<pre>
 ScanIoT/
 │
 │
@@ -66,7 +67,8 @@ ScanIoT/
 ├── app.py                 # Main pipeline entry point
 ├── requirements.txt       # List of requirements
 └── README.md
-
+</pre>
+            
 **Web Dashboard**
 ScanIoT includes a lightweight web interface for visualizing IoT network behavior.
 Features of /templates + /static layer:
@@ -81,7 +83,7 @@ JavaScript (interactive charts / frontend logic)
 Optional: Chart.js / D3.js
 
 **Installation**
-Requirements: Python 3.8+, pip, tcpdump / libpcap (for traffic capture) Setup
+requirements: Python 3.8+, pip, tcpdump / libpcap (for traffic capture) Setup
  <pre>
 git clone https://github.com/Fareed-Jamali/ScanIoT.git
 cd ScanIoT
