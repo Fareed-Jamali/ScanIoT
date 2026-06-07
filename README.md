@@ -1,8 +1,6 @@
 # ScanIoT
 
-ScanIoT
-Intelligent IoT Traffic Monitoring, Feature Extraction & Dataset Generation Platform
-
+ScanIoT is a traffic collection tool that provides a Flask-based web application for network monitoring. While it is primarily designed to capture traffic from IoT devices within a smart home environment, it can also be used to monitor traffic from any connected device. ScanIoT operates as an access point, allowing all network traffic to pass through it for inspection and capture.
 
 
 
@@ -92,52 +90,28 @@ source venv/bin/activate   # Linux / Mac
 venv\Scripts\activate      # Windows
  </pre>
 
-pip install -r requirements.txt
-▶️ Running the System
-1. Start full pipeline
-python main.py
-2. Start web dashboard (if Flask-based)
-python app.py
+To install the requirements
+<pre> pip install -r requirements.txt </pre>
+
+**Running the System**
+Start full pipeline, including dashboard
+
+<pre> python main.py </pre>
+
 Then open:
-http://127.0.0.1:5000
-📊 Output Dataset Format
-Generated datasets include structured IoT traffic features:
-Feature	Description
-timestamp	Packet arrival time
-src_ip	Source device IP
-dst_ip	Destination IP
-protocol	Network protocol
-packet_size	Packet size in bytes
-flow_duration	Session duration
-bytes_sent	Traffic volume
-label	Normal / Anomalous / Device class
-Output location:
-dataset/iot_dataset.csv
-🔬 Use Cases
-IoT Intrusion Detection Systems (IDS)
-Smart home security monitoring
-Machine learning dataset generation
-Network traffic behavior analysis
-Academic research in cybersecurity
-🧩 Key Features
-Real-time IoT traffic capture
-Modular preprocessing pipeline
-Feature extraction engine
-ML-ready dataset generation
-Web-based visualization dashboard
-Clean separation of backend & frontend layers
-🧠 Future Enhancements
-Real-time streaming dashboard (WebSockets)
-Deep learning-based anomaly detection
-Multi-device IoT simulation support
-Cloud integration (AWS / GCP)
-Encrypted traffic analysis support
-Role-based dashboard authentication
-⚠️ Disclaimer
+
+<pre> http://127.0.0.1:5000 </pre>
+
+**Use Cases**
+The system is designed as a lightweight and portable network traffic collection tool with a wide range of additional use cases.
+* Smart home security monitoring
+* Network traffic behavior analysis
+* Academic research in cybersecurity
+
+**Disclaimer**
 ScanIoT is intended strictly for educational and research purposes only.
 Users must ensure compliance with all applicable laws and privacy regulations when capturing network traffic.
 
-ScanIoT is a traffic collection tool that provides a Flask-based web application for network monitoring. While it is primarily designed to capture traffic from IoT devices within a smart home environment, it can also be used to monitor traffic from any connected device. ScanIoT operates as an access point, allowing all network traffic to pass through it for inspection and capture.
 
 The provided code is tailored for deployment on a Raspberry Pi, developed using Visual Studio with a virtual environment setup. All necessary dependencies and setup details are listed in the requirements.txt file.
 
