@@ -51,10 +51,10 @@ ScanIoT/
 │
 │
 ├── templates/              # Web UI HTML templates (dashboard/views)
-│   ├── index.html
-│   ├── dashboard.html
-│   ├── analytics.html
-│   └── layout templates
+│   ├── capture_progress
+│   ├── dashboard
+│   └── login
+│   
 │
 ├── static/                 # Frontend assets
 │   ├── css/
