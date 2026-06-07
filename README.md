@@ -18,6 +18,7 @@ IoT anomaly detection
 Network traffic analysis
 Behavioral profiling of IoT devices
 🧠 System Architecture
+<pre>
 IoT Devices / Network Traffic
             │
             ▼
@@ -51,6 +52,7 @@ IoT Devices / Network Traffic
    ├── Traffic insights
    ├── Device behavior charts
    └── Dataset exploration UI
+</pre>
 📁 Project Structure
 ScanIoT/
 │
