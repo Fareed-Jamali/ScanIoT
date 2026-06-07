@@ -58,8 +58,7 @@ ScanIoT/
 │
 ├── static/                 # Frontend assets
 │   ├── css/
-│   ├── js/
-│   ├── images/
+│   └── js/
 │
 ├── app.py                 # Main pipeline entry point
 ├── requirements.txt       # List of requirements
