@@ -9,15 +9,17 @@ Intelligent IoT Traffic Monitoring, Feature Extraction & Dataset Generation Plat
 **Overview**
 ScanIoT is a modular IoT security research platform designed to capture network traffic, process it into structured features, and generate machine-learning-ready datasets.
 It combines:
-* ⚙️ Backend IoT data processing pipeline (Python)
-* 🌐 Web-based visualization interface (HTML templates + static assets)
-* 📊 Dataset generation for ML/AI-based intrusion detection systems
+* Backend IoT data processing pipeline (Python)
+* Web-based visualization interface (HTML templates + static assets)
+* Dataset generation for ML/AI-based device fingerprinting
+
 The system is designed for research in:
-Smart home security
-IoT anomaly detection
-Network traffic analysis
-Behavioral profiling of IoT devices
-🧠 System Architecture
+* Smart home security
+* IoT anomaly detection
+* Network traffic analysis
+* Behavioral profiling of IoT devices
+
+**System Architecture**
 <pre>
 IoT Devices / Network Traffic
             │
@@ -28,14 +30,7 @@ IoT Devices / Network Traffic
             ▼
    Preprocessing Engine
    ├── Traffic filtering
-   ├── Flow reconstruction
-   └── Noise removal
-            │
-            ▼
-   Feature Extraction Module
-   ├── Packet-level features
-   ├── Flow statistics
-   └── Temporal behavior analysis
+   └── Flow reconstruction
             │
             ▼
    Dataset Generator
@@ -50,18 +45,12 @@ IoT Devices / Network Traffic
             ▼
    Visualization Dashboard
    ├── Traffic insights
-   ├── Device behavior charts
-   └── Dataset exploration UI
+   └── Device behavior
 </pre>
-📁 Project Structure
+
+**Project Structure**
 ScanIoT/
 │
-├── capture/                 # Network traffic capture modules
-├── preprocessing/          # Data cleaning & filtering logic
-├── feature_extraction/     # Feature engineering pipeline
-├── dataset/                # Generated datasets (CSV/JSON)
-├── utils/                  # Helper functions & utilities
-├── config/                 # Configuration files
 │
 ├── templates/              # Web UI HTML templates (dashboard/views)
 │   ├── index.html
@@ -74,33 +63,32 @@ ScanIoT/
 │   ├── js/
 │   ├── images/
 │
-├── main.py                 # Main pipeline entry point
+├── app.py                 # Main pipeline entry point
+├── requirements.txt       # List of requirements
 └── README.md
-🌐 Web Dashboard
+
+**Web Dashboard**
 ScanIoT includes a lightweight web interface for visualizing IoT network behavior.
 Features of /templates + /static layer:
-📊 Real-time traffic visualization
-📡 IoT device activity monitoring
-📈 Dataset exploration interface
-🧠 Feature distribution charts
-🖥️ Interactive dashboard UI
-Tech Stack:
+* Real-time traffic visualization
+* IoT device activity monitoring
+* Interactive dashboard UI
+
+**Tech Stack**
 HTML5 (Jinja2-compatible structure if Flask is used)
 CSS3 (UI styling)
 JavaScript (interactive charts / frontend logic)
 Optional: Chart.js / D3.js
-⚙️ Installation
-Requirements
-Python 3.8+
-pip
-tcpdump / libpcap (for traffic capture)
-Setup
+
+**Installation**
+Requirements: Python 3.8+, pip, tcpdump / libpcap (for traffic capture) Setup
+ <pre>
 git clone https://github.com/Fareed-Jamali/ScanIoT.git
 cd ScanIoT
-
 python -m venv venv
 source venv/bin/activate   # Linux / Mac
 venv\Scripts\activate      # Windows
+ </pre>
 
 pip install -r requirements.txt
 ▶️ Running the System
