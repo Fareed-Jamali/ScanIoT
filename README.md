@@ -70,7 +70,7 @@ ScanIoT includes a lightweight web interface for visualizing IoT network behavio
 *Figure 5: ScanIoT saved devices.*
 
 
-![System Architecture](Images/ScanIoT_Web_Saved_Pcap.png)
+![System Architecture](Images/ScanIoT_Web_Saved_Pcap_Files.png)
 
 *Figure 6: ScanIoT saved pcaps.*
 
