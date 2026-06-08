@@ -43,11 +43,16 @@ ScanIoT/
 </pre>
             
 **Web Dashboard**
+
 ScanIoT includes a lightweight web interface for visualizing IoT network behavior.
-Features of /templates + /static layer:
+
 * Real-time traffic visualization
 * IoT device activity monitoring
 * Interactive dashboard UI
+
+![System Architecture](Images/ScanIoT_Web_Home.png)
+
+*Figure 2: ScanIoT web home page.*
 
 **Tech Stack**
 HTML5 (Jinja2-compatible structure if Flask is used)
