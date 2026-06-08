@@ -22,34 +22,6 @@ The system is designed for research in:
 
 *Figure 1: ScanIoT system architecture.*
 
-<pre>
-IoT Devices / Network Traffic
-            │
-            ▼
-   Packet Capture Layer
-   (tcpdump / scapy / sockets)
-            │
-            ▼
-   Preprocessing Engine
-   ├── Traffic filtering
-   └── Flow reconstruction
-            │
-            ▼
-   Dataset Generator
-   ├── CSV export
-   └── ML-ready labeling
-            │
-            ▼
-   Web Interface Layer
-   ├── templates/ (HTML views)
-   └── static/ (CSS / JS / assets)
-            │
-            ▼
-   Visualization Dashboard
-   ├── Traffic insights
-   └── Device behavior
-</pre>
-
 **Project Structure**
 <pre>
 ScanIoT/
