@@ -60,6 +60,10 @@ ScanIoT includes a lightweight web interface for visualizing IoT network behavio
 *Figure 3: ScanIoT web scan.*
 
 
+![System Architecture](Images/ScanIoT_Web_Scan_Edit.png)
+
+*Figure 4: ScanIoT editing device details to be saved.*
+
 **Installation**
 requirements: Python 3.8+, pip, tcpdump / libpcap (for traffic capture) Setup
  <pre>
