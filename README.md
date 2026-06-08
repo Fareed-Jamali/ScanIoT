@@ -54,11 +54,6 @@ ScanIoT includes a lightweight web interface for visualizing IoT network behavio
 
 *Figure 2: ScanIoT web home page.*
 
-**Tech Stack**
-HTML5 (Jinja2-compatible structure if Flask is used)
-CSS3 (UI styling)
-JavaScript (interactive charts / frontend logic)
-Optional: Chart.js / D3.js
 
 **Installation**
 requirements: Python 3.8+, pip, tcpdump / libpcap (for traffic capture) Setup
