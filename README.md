@@ -17,6 +17,11 @@ The system is designed for research in:
 * Behavioral profiling of IoT devices
 
 **System Architecture**
+
+![System Architecture](Images/ScanIoTBlockDiagram.png)
+
+*Figure 1: ScanIoT system architecture.*
+
 <pre>
 IoT Devices / Network Traffic
             │
