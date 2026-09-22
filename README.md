@@ -122,4 +122,6 @@ For **citation** purposes, use following:
 
 <pre> Jamali, A.F. and Fung, C., 2024, October. ScanIoT, an Application to collect IoT dataset for HomeGuard. In 2024 7th Conference on Cloud and Internet of Things (CIoT) (pp. 1-2). IEEE. </pre>
 
+```bash
 Jamali, A.F., Rostami, D. and Fung, C., 2025, September. IoT Device Identification using Deep Learning. In 2025 16th International Conference on Network of the Future (NoF) (pp. 46-54). IEEE.
+```
